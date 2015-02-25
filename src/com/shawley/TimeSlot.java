@@ -12,7 +12,7 @@ public class TimeSlot {
 
     private int timeslot;
 
-    public TimeSlot(int timeslot) {
+    private TimeSlot(int timeslot) {
         this.timeslot = timeslot;
     }
 
@@ -50,5 +50,28 @@ public class TimeSlot {
 
     public static TimeSlot createMiscTimeSlot() {
         return TimeSlot.createTimeSlot(TimeSlot.MISC);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Time Slot");
+        switch (timeslot) {
+            case MORNING:
+                result.insert(0, "Morning ");
+                break;
+            case AFTERNOON:
+                result.insert(0, "Afternoon ");
+                break;
+            case EVENING:
+                result.insert(0, "Evening ");
+                break;
+            case MISC:
+                result.insert(0, "Miscellaneous ");
+                break;
+            default:
+                result.insert(0, "Unknown ");
+        }
+        return result.toString();
     }
 }

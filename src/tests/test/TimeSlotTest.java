@@ -49,4 +49,12 @@ public class TimeSlotTest {
         assertFalse("Timeslot created is of wrong type", this.timeslot.isAfternoon());
     }
 
+    @Test
+    public void toStringReturnsReadableAndAccurateStatement() {
+        assertEquals("Morning Time Slot", TimeSlot.createMorningTimeSlot().toString());
+        assertEquals("Afternoon Time Slot", TimeSlot.createAfternoonTimeSlot().toString());
+        assertEquals("Evening Time Slot", TimeSlot.createEveningTimeSlot().toString());
+        assertEquals("Miscellaneous Time Slot", TimeSlot.createMiscTimeSlot().toString());
+    }
+
 }
