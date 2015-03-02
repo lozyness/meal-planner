@@ -23,6 +23,9 @@ public class TimeSlot {
     private static Date EVENING_END_DATE;
     private static Calendar cal = new GregorianCalendar();
 
+    //@TODO: break into two classes - Date and TimeSlot
+
+
 
     private int timeslot;
 
