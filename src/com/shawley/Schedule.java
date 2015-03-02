@@ -98,6 +98,7 @@ public class Schedule {
         while(eventTimeslotIter.hasNext()) {
             TimeSlot ts = eventTimeslotIter.next();
             this.getTimeSlots(date).remove(ts);
+            this.allTimeslots.remove(ts);
         }
 
     }

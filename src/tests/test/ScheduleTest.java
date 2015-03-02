@@ -11,6 +11,8 @@ import static org.junit.Assert.*;
 
 public class ScheduleTest {
 
+    //@TODO: Refactor to remove duplication
+
     @Test
     public void testGenerateScheduleForTodayGeneratesRequiredTimeSlots() {
         Schedule schedule = new Schedule(new Date());
@@ -98,6 +100,7 @@ public class ScheduleTest {
         assertEquals(2, timeslotList.size());
         assertTrue(timeslotList.contains(TimeSlot.createAfternoonTimeSlot()));
         assertTrue(timeslotList.contains(TimeSlot.createEveningTimeSlot()));
+        assertEquals(2, schedule.getTimeSlots().size());
     }
 
 
