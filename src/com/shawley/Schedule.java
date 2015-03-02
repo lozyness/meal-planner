@@ -63,8 +63,8 @@ public class Schedule {
         cal.setTime(date);
         cal.set(Calendar.HOUR,0);
         cal.set(Calendar.MINUTE,0);
-        cal.set(Calendar.SECOND,0);
-        cal.set(Calendar.MILLISECOND,0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
     }
 
@@ -82,5 +82,23 @@ public class Schedule {
             cal.add(Calendar.DATE, 1);
         }
         return dates;
+    }
+
+    public void updateScheduleGivenEventList(Date date, List<Event> eventList) {
+        Iterator<Event> eventsIter = eventList.iterator();
+        while (eventsIter.hasNext()) {
+            Event event = eventsIter.next();
+            this.removeEventTimeslotsFromSchedule(date, event);
+        }
+    }
+
+    private void removeEventTimeslotsFromSchedule(Date date, Event event) {
+        List<TimeSlot> eventTimeslots = event.getTimeslots();
+        Iterator<TimeSlot> eventTimeslotIter = eventTimeslots.iterator();
+        while(eventTimeslotIter.hasNext()) {
+            TimeSlot ts = eventTimeslotIter.next();
+            this.getTimeSlots(date).remove(ts);
+        }
+
     }
 }

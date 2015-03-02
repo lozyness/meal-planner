@@ -4,11 +4,11 @@ import org.junit.Test;
 import shawley.Event;
 import shawley.TimeSlot;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class EventTest {
 
@@ -21,9 +21,12 @@ public class EventTest {
 
     @Test
     public void checkEventCanExistInMorning() {
-        Date date = new Date();
-        Event event = new Event(date);
-        event.addTimeSlot(TimeSlot.createMorningTimeSlot());
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR+3);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
         assertTrue("Event not in morning", event.isMorning());
         assertFalse("Event in afternoon", event.isAfternoon());
         assertFalse("Event in evening", event.isEvening());
@@ -31,9 +34,12 @@ public class EventTest {
 
     @Test
     public void checkEventCanExistInAfternoon() {
-        Date date = new Date();
-        Event event = new Event(date);
-        event.addTimeSlot(TimeSlot.createAfternoonTimeSlot());
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR+3);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
         assertFalse("Event in morning", event.isMorning());
         assertTrue("Event not in afternoon", event.isAfternoon());
         assertFalse("Event in evening", event.isEvening());
@@ -41,9 +47,12 @@ public class EventTest {
 
     @Test
     public void checkEventCanExistInEvening() {
-        Date date = new Date();
-        Event event = new Event(date);
-        event.addTimeSlot(TimeSlot.createEveningTimeSlot());
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR+3);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
         assertFalse("Event in morning", event.isMorning());
         assertFalse("Event in afternoon", event.isAfternoon());
         assertTrue("Event not in afternoon", event.isEvening());
@@ -51,10 +60,12 @@ public class EventTest {
 
     @Test
     public void checkEventCanExistInMorningAndAfternoon() {
-        Date date = new Date();
-        Event event = new Event(date);
-        event.addTimeSlot(TimeSlot.createMorningTimeSlot());
-        event.addTimeSlot(TimeSlot.createAfternoonTimeSlot());
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR + 3);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
         assertTrue("Event not in morning", event.isMorning());
         assertTrue("Event not in afternoon", event.isAfternoon());
         assertFalse("Event in afternoon", event.isEvening());
@@ -62,8 +73,12 @@ public class EventTest {
 
     @Test
     public void getAllTimeslotsInEvent() {
-        Event event = new Event(new Date());
-        event.addTimeSlot(TimeSlot.createEveningTimeSlot());
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR+3);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
         assertEquals(1, event.getTimeslots().size());
     }
 

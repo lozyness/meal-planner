@@ -1,5 +1,7 @@
 package shawley;
 
+import java.util.*;
+
 /**
  * Created by laura on 25/02/15.
  */
@@ -9,6 +11,18 @@ public class TimeSlot {
     private static final int AFTERNOON = 1;
     private static final int EVENING = 2;
     private static final int MISC = 3;
+    public static final int MORNING_START_HOUR = 6;
+    public static final int AFTERNOON_START_HOUR = 12;
+    public static final int EVENING_START_HOUR = 17;
+    public static final int EVENING_END_HOUR = 23;
+    private static Date AFTERNOON_END_DATE;
+    private static Date MORNING_END_DATE;
+    private static Date MORNING_START_DATE;
+    private static Date AFTERNOON_START_DATE;
+    private static Date EVENING_START_DATE;
+    private static Date EVENING_END_DATE;
+    private static Calendar cal = new GregorianCalendar();
+
 
     private int timeslot;
 
@@ -26,6 +40,84 @@ public class TimeSlot {
 
     public static TimeSlot createAfternoonTimeSlot() {
         return TimeSlot.createTimeSlot(TimeSlot.AFTERNOON);
+    }
+
+    public static Date getMorningStartDate() {
+        if(TimeSlot.MORNING_START_DATE == null) {
+            Calendar cal = TimeSlot.cal;
+            cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR);
+            cal.setTime(TimeSlot.setDateToLowerLimitOfHour(cal.getTime()));
+            TimeSlot.MORNING_START_DATE = cal.getTime();
+        }
+        return TimeSlot.MORNING_START_DATE;
+    }
+
+    public static Date getMorningEndDate() {
+        if(TimeSlot.MORNING_END_DATE == null) {
+            Calendar cal = TimeSlot.cal;
+            cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR - 1);
+            cal.setTime(TimeSlot.setDateToUpperLimitOfHour(cal.getTime()));
+            TimeSlot.MORNING_END_DATE = cal.getTime();
+        }
+        return TimeSlot.MORNING_END_DATE;
+    }
+
+    public static Date getAfternoonStartDate() {
+        if (TimeSlot.AFTERNOON_START_DATE == null) {
+            Calendar cal = TimeSlot.cal;
+            cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR);
+            cal.setTime(TimeSlot.setDateToLowerLimitOfHour(cal.getTime()));
+            TimeSlot.AFTERNOON_START_DATE = cal.getTime();
+        }
+        return TimeSlot.AFTERNOON_START_DATE;
+    }
+
+    public static Date getAfternoonEndDate() {
+        if(TimeSlot.AFTERNOON_END_DATE == null) {
+            Calendar cal = TimeSlot.cal;
+            cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR - 1);
+            cal.setTime(TimeSlot.setDateToUpperLimitOfHour(cal.getTime()));
+            TimeSlot.AFTERNOON_END_DATE = cal.getTime();
+        }
+        return TimeSlot.AFTERNOON_END_DATE;
+    }
+
+    public static Date getEveningStartDate() {
+        if (TimeSlot.EVENING_START_DATE == null) {
+            Calendar cal = TimeSlot.cal;
+            cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR);
+            cal.setTime(TimeSlot.setDateToLowerLimitOfHour(cal.getTime()));
+            TimeSlot.EVENING_START_DATE = cal.getTime();
+        }
+        return TimeSlot.EVENING_START_DATE;
+    }
+
+    public static Date getEveningEndDate() {
+        if(TimeSlot.EVENING_END_DATE == null) {
+            Calendar cal = TimeSlot.cal;
+            cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_END_HOUR - 1);
+            cal.setTime(TimeSlot.setDateToUpperLimitOfHour(cal.getTime()));
+            TimeSlot.EVENING_END_DATE = cal.getTime();
+        }
+        return TimeSlot.EVENING_END_DATE;
+    }
+
+    private static Date setDateToUpperLimitOfHour(Date date) {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 99);
+        return cal.getTime();
+    }
+
+    private static Date setDateToLowerLimitOfHour(Date date) {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
     }
 
     public boolean isMorning() {
@@ -91,4 +183,76 @@ public class TimeSlot {
     public int hashCode() {
         return timeslot;
     }
+
+    public static List<TimeSlot> getTimeslotListForDateRange(Date from, Date to) {
+        List<TimeSlot> result = new ArrayList<TimeSlot>();
+        if(TimeSlot.dateInMorning(from, to)) {
+            result.add(TimeSlot.createMorningTimeSlot());
+        }
+        if(TimeSlot.dateInAfternoon(from, to)) {
+            result.add(TimeSlot.createAfternoonTimeSlot());
+        }
+        if(TimeSlot.dateInEvening(from, to)) {
+            result.add(TimeSlot.createEveningTimeSlot());
+        }
+        return result;
+    }
+
+    private static boolean dateInMorning(Date from, Date to) {
+        boolean result = false;
+        if (TimeSlot.inMorning(from) || TimeSlot.inMorning(to)) {
+            result = true;
+        } else if (from.before(getMorningStartDate()) && to.after(getMorningEndDate())) {
+            result = true;
+        }
+        return result;
+    }
+
+    private static boolean dateInAfternoon(Date from, Date to) {
+        boolean result = false;
+        if (TimeSlot.inAfternoon(from) || TimeSlot.inAfternoon(to)) {
+            result = true;
+        } else if (from.before(getAfternoonStartDate()) && to.after(getAfternoonEndDate())) {
+            result = true;
+        }
+        return result;
+    }
+
+    private static boolean dateInEvening(Date from, Date to) {
+        boolean result = false;
+        if (TimeSlot.inEvening(from) || TimeSlot.inEvening(to)) {
+            result = true;
+        } else if (from.before(getMorningStartDate()) && to.after(getMorningEndDate())) {
+            result = true;
+        }
+        return result;
+    }
+
+    private static boolean inEvening(Date date) {
+        Date eveningStart = TimeSlot.getEveningStartDate();
+        Date eveningEnd = TimeSlot.getEveningEndDate();
+        return TimeSlot.inTimeFrame(date, eveningStart, eveningEnd);
+    }
+
+    private static boolean inMorning(Date date) {
+        Date morningStart = TimeSlot.getMorningStartDate();
+        Date morningEnd = TimeSlot.getMorningEndDate();
+        return TimeSlot.inTimeFrame(date, morningStart, morningEnd);
+    }
+
+    private static boolean inAfternoon(Date date) {
+        Date afternoonStart = TimeSlot.getAfternoonStartDate();
+        Date afternoonEnd = TimeSlot.getAfternoonEndDate();
+        return TimeSlot.inTimeFrame(date, afternoonStart, afternoonEnd);
+    }
+
+    private static boolean inTimeFrame(Date dateToCheck, Date from, Date to) {
+        if(dateToCheck.equals(from)
+                ||(dateToCheck.after(from) && dateToCheck.before(to))
+                || dateToCheck.equals(to)) {
+            return true;
+        }
+        return false;
+    }
+
 }

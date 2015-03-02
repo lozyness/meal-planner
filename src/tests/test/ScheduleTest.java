@@ -1,13 +1,13 @@
 package test;
 
 import org.junit.Test;
+import shawley.Event;
 import shawley.Schedule;
 import shawley.TimeSlot;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class ScheduleTest {
 
@@ -81,4 +81,24 @@ public class ScheduleTest {
         assertNotNull(slots);
         assertEquals("Date range does not have expected number of timeslots", list.size() * 3, schedule.getTimeSlots().size());
     }
+
+    @Test
+    public void testCanGenerateAvailableTimeslotsGivenAnEventList() {
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR + 3);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
+        List<Event> eventList = new ArrayList<Event>();
+        eventList.add(event);
+        Schedule schedule = new Schedule(from);
+        schedule.updateScheduleGivenEventList(from, eventList);
+        List<TimeSlot> timeslotList = schedule.getTimeSlots(from);
+        assertEquals(2, timeslotList.size());
+        assertTrue(timeslotList.contains(TimeSlot.createAfternoonTimeSlot()));
+        assertTrue(timeslotList.contains(TimeSlot.createEveningTimeSlot()));
+    }
+
+
 }
