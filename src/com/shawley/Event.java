@@ -31,10 +31,6 @@ public class Event {
         return from;
     }
 
-    public void addTimeSlot(TimeSlot timeSlot) {
-        this.timeslots.add(timeSlot);
-    }
-
     public boolean isMorning() {
         return this.timeslots.contains(TimeSlot.createMorningTimeSlot());
     }

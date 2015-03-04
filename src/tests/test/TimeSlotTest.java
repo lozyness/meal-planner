@@ -15,6 +15,13 @@ public class TimeSlotTest {
     private TimeSlot timeslot;
 
     @Test
+    public void checkHashCodeIsAsExpected() {
+        this.timeslot = TimeSlot.createMorningTimeSlot();
+        assertEquals(0, this.timeslot.hashCode());
+    }
+
+
+    @Test
     public void canCreateMorningTimeslot() {
         this.timeslot = TimeSlot.createMorningTimeSlot();
         assertNotNull("Timeslot should have been instantiated", this.timeslot);
@@ -142,10 +149,6 @@ public class TimeSlotTest {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         Date from = cal.getTime();
-        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR - 1);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        cal.set(Calendar.MILLISECOND, 99);
         Date to = TimeSlot.getMorningEndDate();
         List<TimeSlot> timeslots = TimeSlot.getTimeslotListForDateRange(from, to);
         assertEquals(1, timeslots.size());
@@ -160,13 +163,27 @@ public class TimeSlotTest {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         Date from = cal.getTime();
-        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR - 1);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        cal.set(Calendar.MILLISECOND, 99);
         Date to = TimeSlot.getMorningEndDate();
         List<TimeSlot> timeslots = TimeSlot.getTimeslotListForDateRange(from, to);
         assertEquals(1, timeslots.size());
+        assertTrue(timeslots.get(0).isMorning());
+    }
+
+    @Test
+    public void checkOneTimeslotGeneratedForMorningDateRangeWithToDateBeforeMorningToAfternoon() {
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR-3);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR +3);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 99);
+        Date to = cal.getTime();
+        List<TimeSlot> timeslots = TimeSlot.getTimeslotListForDateRange(from, to);
+        assertEquals(3, timeslots.size());
         assertTrue(timeslots.get(0).isMorning());
     }
 

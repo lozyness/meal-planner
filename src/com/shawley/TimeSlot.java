@@ -2,9 +2,6 @@ package shawley;
 
 import java.util.*;
 
-/**
- * Created by laura on 25/02/15.
- */
 public class TimeSlot {
 
     private static final int MORNING = 0;
@@ -163,9 +160,6 @@ public class TimeSlot {
                 break;
             case MISC:
                 result.insert(0, "Miscellaneous ");
-                break;
-            default:
-                result.insert(0, "Unknown ");
         }
         return result.toString();
     }
@@ -177,9 +171,7 @@ public class TimeSlot {
 
         TimeSlot timeSlot = (TimeSlot) obj;
 
-        if (timeslot != timeSlot.timeslot) return false;
-
-        return true;
+        return timeslot == timeSlot.timeslot;
     }
 
     @Override
@@ -250,12 +242,9 @@ public class TimeSlot {
     }
 
     private static boolean inTimeFrame(Date dateToCheck, Date from, Date to) {
-        if(dateToCheck.equals(from)
+        return (dateToCheck.equals(from)
                 ||(dateToCheck.after(from) && dateToCheck.before(to))
-                || dateToCheck.equals(to)) {
-            return true;
-        }
-        return false;
+                || dateToCheck.equals(to));
     }
 
 }
