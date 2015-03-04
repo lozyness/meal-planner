@@ -22,8 +22,6 @@ public class TimeSlot {
 
     //@TODO: break into two classes - Date and TimeSlot
 
-
-
     private int timeslot;
 
     private TimeSlot(int timeslot) {
