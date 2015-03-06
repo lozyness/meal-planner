@@ -4,7 +4,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import shawley.Schedule;
 import shawley.TimeSlot;
-import shawley.controller.ScheduleViewer;
+import shawley.controller.ViewScheduleController;
 import shawley.view.IScheduleView;
 
 import java.util.Date;
@@ -12,19 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GUIPlannerTest {
+public class ViewScheduleControllerTest {
 
     @Test
-    public void testScheduleViewerDisplaysScheduleInAListFormat() throws Exception {
+    public void testCreatingScheduleViewerControllerSetsUpViewWithTimeslotDataToDisplay() throws Exception {
         Date date = new Date();
         Schedule schedule = new Schedule(new Date());
         Map<Date, List<TimeSlot>> timeslotsByDate = new HashMap<Date, List<TimeSlot>>();
         timeslotsByDate.put(date, schedule.getTimeSlots());
         IScheduleView view = EasyMock.createMock(IScheduleView.class);
-        view.setSchedule(schedule);
+        view.setSchedule(schedule.getTimeSlots());
         EasyMock.expectLastCall().once();
         EasyMock.replay(view);
-        ScheduleViewer scheduleViewer = new ScheduleViewer(schedule, view);
+        ViewScheduleController scheduleViewer = new ViewScheduleController(schedule, view);
         EasyMock.verify(view);
     }
 

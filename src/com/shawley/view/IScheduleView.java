@@ -1,10 +1,12 @@
 package shawley.view;
 
-import shawley.Schedule;
+import shawley.TimeSlot;
+
+import java.util.List;
 
 /**
  * Created by laura on 04/03/15.
  */
 public interface IScheduleView {
-    void setSchedule(Schedule schedule);
+    void setSchedule(List<TimeSlot> timeslotsInSchedule);
 }
