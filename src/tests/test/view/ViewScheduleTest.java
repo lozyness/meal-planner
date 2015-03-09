@@ -9,6 +9,10 @@ import org.netbeans.jemmy.operators.JTableOperator;
 import shawley.Schedule;
 import shawley.view.ViewSchedule;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -37,7 +41,10 @@ public class ViewScheduleTest {
 
     @Test
     public void tableHasExpectedNumberOfRowsForOneDay() {
-        Schedule schedule = new Schedule(1);
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        Date from = cal.getTime();
+        Schedule schedule = new Schedule(from);
         view.setSchedule(schedule);
         JTableOperator tableOperator = new JTableOperator(window);
         assertEquals(1, tableOperator.getRowCount());
@@ -45,7 +52,12 @@ public class ViewScheduleTest {
 
     @Test
     public void tableHasExpectedNumberOfRowsForTwoDays() {
-        Schedule schedule = new Schedule(2);
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        Date from = cal.getTime();
+        cal.add(Calendar.DATE, 1);
+        Date to = cal.getTime();
+        Schedule schedule = new Schedule(from, to);
         view.setSchedule(schedule);
         JTableOperator tableOperator = new JTableOperator(window);
         assertEquals(2, tableOperator.getRowCount());

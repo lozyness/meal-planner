@@ -5,7 +5,6 @@ import shawley.Event;
 import shawley.Schedule;
 import shawley.TimeSlot;
 
-import java.sql.Time;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -25,12 +24,8 @@ public class ScheduleTest {
 
     @Test
     public void testGenerateScheduleForTodayAndTomorrowGeneratesRequiredTimeSlots() {
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(new Date());
-        Date today = cal.getTime();
-        cal.add(Calendar.DATE, 1);
-        Date tomorrow = cal.getTime();
-        Schedule schedule = new Schedule(today, tomorrow);
+        Date[] dates = this.getScheduleForNumberOfDays(2);
+        Schedule schedule = new Schedule(dates[0], dates[1]);
         List<TimeSlot> list = new ArrayList<TimeSlot>();
         list.add(TimeSlot.createMorningTimeSlot());
         list.add(TimeSlot.createAfternoonTimeSlot());
@@ -44,7 +39,8 @@ public class ScheduleTest {
 
     @Test
     public void testCanRetrieveTodaysTimeSlots() {
-        Schedule schedule = new Schedule(2);
+        Date[] dates = this.getScheduleForNumberOfDays(2);
+        Schedule schedule = new Schedule(dates[0], dates[1]);
         List<TimeSlot> list = new ArrayList<TimeSlot>();
         list.add(TimeSlot.createMorningTimeSlot());
         list.add(TimeSlot.createAfternoonTimeSlot());
@@ -61,12 +57,11 @@ public class ScheduleTest {
         list.add(TimeSlot.createMorningTimeSlot());
         list.add(TimeSlot.createAfternoonTimeSlot());
         list.add(TimeSlot.createEveningTimeSlot());
-        Calendar cal = new GregorianCalendar();
-        Date from = cal.getTime();
-        cal.add(Calendar.DATE, 1);
-        Date mid = cal.getTime();
-        cal.add(Calendar.DATE, 1);
-        Date to = cal.getTime();
+
+        Date[] dates = this.getScheduleForNumberOfDays(3);
+        Date from = dates[0];
+        Date mid = dates[1];
+        Date to = dates[2];
         Schedule schedule = Schedule.createScheduleForDateRange(from, to);
 
         List<TimeSlot> slots = schedule.getTimeSlots(from);
@@ -103,7 +98,8 @@ public class ScheduleTest {
 
     @Test
     public void checkGetAllTimeslotsReturnsExpectedValues() {
-        Schedule schedule = new Schedule(2);
+        Date[] dates = this.getScheduleForNumberOfDays(2);
+        Schedule schedule = new Schedule(dates[0], dates[1]);
         Map<Date, List<TimeSlot>> timeslotMap = schedule.getAllTimeSlots();
         assertEquals(2, timeslotMap.keySet().size());
         Iterator<Date> iterator = timeslotMap.keySet().iterator();
@@ -112,4 +108,16 @@ public class ScheduleTest {
             assertEquals(3, times.size());
         }
     }
+
+    private Date[] getScheduleForNumberOfDays(int numOfDays) {
+        Date[] dates = new Date[numOfDays];
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        for(int i=0; i<numOfDays; i++) {
+            dates[i] = cal.getTime();
+            cal.add(Calendar.DATE, 1);
+        }
+        return dates;
+    }
+
 }

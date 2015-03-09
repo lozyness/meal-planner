@@ -10,14 +10,14 @@ public class Schedule {
     private List<TimeSlot> allTimeslots = new ArrayList<TimeSlot>();
     private static Calendar cal = new GregorianCalendar();
 
-    public Schedule(int days) {
-        this.cal.setTime(new Date());
-        for(int i=0; i<days; i++) {
-            Date date = this.cal.getTime();
-            this.addStandardTimeSlotListToDate(date);
-            this.cal.add(Calendar.DATE, 1);
-        }
-    }
+//    public Schedule(int days) {
+//        this.cal.setTime(new Date());
+//        for(int i=0; i<days; i++) {
+//            Date date = this.cal.getTime();
+//            this.addStandardTimeSlotListToDate(date);
+//            this.cal.add(Calendar.DATE, 1);
+//        }
+//    }
 
     public Schedule(Date date) {
         this.addStandardTimeSlotListToDate(date);
