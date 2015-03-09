@@ -5,14 +5,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.netbeans.jemmy.TimeoutExpiredException;
 import org.netbeans.jemmy.operators.JFrameOperator;
-import org.netbeans.jemmy.operators.JListOperator;
+import org.netbeans.jemmy.operators.JTableOperator;
 import shawley.Schedule;
-import shawley.TimeSlot;
-import shawley.controller.ViewScheduleController;
-import shawley.view.IScheduleView;
 import shawley.view.ViewSchedule;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Created by laura on 04/03/15.
@@ -20,59 +18,74 @@ import static org.junit.Assert.*;
 public class ViewScheduleTest {
 
     private JFrameOperator window;
+    private ViewSchedule view;
 
     @Before
     public void setup() {
-        ViewSchedule.start();
+        this.view = ViewSchedule.start();
+        this.window = new JFrameOperator("Schedule");
     }
 
     @Test
-    public void testFrameExists() {
-        String name = "Schedule Viewer";
+    public void testTableComponentExists() {
         try {
-            JFrameOperator window = new JFrameOperator(name);
+            JTableOperator tableOperator = new JTableOperator(window);
         } catch (TimeoutExpiredException e) {
-            System.out.print(e.getStackTrace());
+            fail();
         }
     }
 
     @Test
-    public void testListComponentExists() {
-        JFrameOperator window = new JFrameOperator("Schedule");
-        try {
-            JListOperator list = new JListOperator(window);
-        } catch (TimeoutExpiredException e) {
-            System.out.print(e.getStackTrace());
-        }
+    public void tableHasExpectedNumberOfRowsForOneDay() {
+        Schedule schedule = new Schedule(1);
+        view.setSchedule(schedule);
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals(1, tableOperator.getRowCount());
     }
 
     @Test
-    public void listItemsCanHaveTimeslotsSet() {
+    public void tableHasExpectedNumberOfRowsForTwoDays() {
         Schedule schedule = new Schedule(2);
-        JFrameOperator window = new JFrameOperator("Schedule");
-        IScheduleView view = (IScheduleView) window.getWindow();
-        view.setSchedule(schedule.getTimeSlots());
-        JListOperator list = new JListOperator(window);
-        assertEquals(6, list.getModel().getSize());
-        assertNotNull(list.getModel().getElementAt(0));
-        assertTrue(((TimeSlot) list.getModel().getElementAt(0)).isMorning());
+        view.setSchedule(schedule);
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals(2, tableOperator.getRowCount());
     }
 
     @Test
-    public void listItemsCanHaveTimeslotsSetThroughController() {
-        Schedule schedule = new Schedule(2);
-        JFrameOperator window = new JFrameOperator("Schedule");
-        IScheduleView view = (IScheduleView) window.getWindow();
-        ViewScheduleController controller = new ViewScheduleController(schedule, view);
-        JListOperator list = new JListOperator(window);
-        assertEquals(6, list.getModel().getSize());
-        assertNotNull(list.getModel().getElementAt(0));
-        assertTrue(((TimeSlot) list.getModel().getElementAt(0)).isMorning());
+    public void tableHasExpectedNumberOfColumns() {
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals(4, tableOperator.getColumnCount());
     }
+
+//    @Test
+//    public void listItemsCanHaveTimeslotsSet() {
+//        Schedule schedule = new Schedule(2);
+//        JFrameOperator window = new JFrameOperator("Schedule");
+//        IScheduleView view = (IScheduleView) window.getWindow();
+//        view.setSchedule(schedule.getTimeSlots());
+//        JTableOperator tableOperator = new JTableOperator(window);
+//        assertEquals(6, tableOperator.getRowCount());
+//        assertNotNull(tableOperator.getValueAt(0,0));
+//        assertTrue(((TimeSlot) list.getModel().getElementAt(0)).isMorning());
+//    }
+
+//    @Test
+//    public void listItemsCanHaveTimeslotsSetThroughController() {
+//        Schedule schedule = new Schedule(2);
+//        JFrameOperator window = new JFrameOperator("Schedule");
+//        IScheduleView view = (IScheduleView) window.getWindow();
+//        ViewScheduleController controller = new ViewScheduleController(schedule, view);
+//        JTableOperator tableOperator = new JTableOperator(window);
+////        tableOperator.getRowCount();
+//        assertEquals(6, tableOperator.getRowCount());
+////        assertNotNull(list.getModel().getElementAt(0));
+//        assertTrue(((TimeSlot) list.getModel().getElementAt(0)).isMorning());
+//    }
 
     @After
     public void tearDown() {
         try {
+            view.dispose();
             window.dispose();
         } catch (NullPointerException e) {
 //            e.printStackTrace();

@@ -5,6 +5,7 @@ import shawley.Event;
 import shawley.Schedule;
 import shawley.TimeSlot;
 
+import java.sql.Time;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -100,5 +101,15 @@ public class ScheduleTest {
         assertTrue(timeslotList.contains(TimeSlot.createEveningTimeSlot()));
     }
 
-
+    @Test
+    public void checkGetAllTimeslotsReturnsExpectedValues() {
+        Schedule schedule = new Schedule(2);
+        Map<Date, List<TimeSlot>> timeslotMap = schedule.getAllTimeSlots();
+        assertEquals(2, timeslotMap.keySet().size());
+        Iterator<Date> iterator = timeslotMap.keySet().iterator();
+        while (iterator.hasNext()) {
+            List<TimeSlot> times = timeslotMap.get(iterator.next());
+            assertEquals(3, times.size());
+        }
+    }
 }

@@ -21,7 +21,7 @@ public class ViewScheduleControllerTest {
         Map<Date, List<TimeSlot>> timeslotsByDate = new HashMap<Date, List<TimeSlot>>();
         timeslotsByDate.put(date, schedule.getTimeSlots());
         IScheduleView view = EasyMock.createMock(IScheduleView.class);
-        view.setSchedule(schedule.getTimeSlots());
+        view.setSchedule(schedule);
         EasyMock.expectLastCall().once();
         EasyMock.replay(view);
         ViewScheduleController scheduleViewer = new ViewScheduleController(schedule, view);

@@ -10,12 +10,12 @@ import shawley.view.ViewSchedule;
 public class ViewScheduleController {
 
     public ViewScheduleController(Schedule schedule, IScheduleView view) {
-        view.setSchedule(schedule.getTimeSlots());
+        view.setSchedule(schedule);
     }
 
     public static void main(String[] args) {
-        ViewSchedule.start();
-        Schedule schedule = new Schedule(4);
-        ViewScheduleController controller = new ViewScheduleController(schedule, ViewSchedule.getScheduleViewWindow());
+        ViewSchedule view = ViewSchedule.start();
+        Schedule schedule = new Schedule(2);
+        ViewScheduleController controller = new ViewScheduleController(schedule, view);
     }
 }

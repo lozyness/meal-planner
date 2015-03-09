@@ -101,4 +101,8 @@ public class Schedule {
         }
 
     }
+
+    public Map<Date, List<TimeSlot>> getAllTimeSlots() {
+        return this.timeSlots;
+    }
 }
