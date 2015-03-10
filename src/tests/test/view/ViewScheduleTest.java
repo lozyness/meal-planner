@@ -64,35 +64,86 @@ public class ViewScheduleTest {
     }
 
     @Test
+    public void tableHasExpectedDateForDay() {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        cal.set(Calendar.HOUR,0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date from = cal.getTime();
+        Schedule schedule = new Schedule(from);
+        view.setSchedule(schedule);
+        JTableOperator tableOperator = new JTableOperator(window);
+        Date date = (Date) tableOperator.getValueAt(0, 0);
+        assertEquals(from, date);
+    }
+
+    @Test
+    public void tableHasMorningTimeSlot() {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        Date from = cal.getTime();
+        Schedule schedule = new Schedule(from);
+        view.setSchedule(schedule);
+        JTableOperator tableOperator = new JTableOperator(window);
+        boolean morningTimeslot = (boolean) tableOperator.getValueAt(0, 1);
+        assertEquals(true , morningTimeslot);
+    }
+
+    @Test
+    public void tableHasAfternoonTimeSlot() {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        Date from = cal.getTime();
+        Schedule schedule = new Schedule(from);
+        view.setSchedule(schedule);
+        JTableOperator tableOperator = new JTableOperator(window);
+        boolean afternoonTimeslot = (boolean) tableOperator.getValueAt(0, 2);
+        assertEquals(true , afternoonTimeslot);
+    }
+
+    @Test
+    public void tableHasEveningTimeSlot() {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        Date from = cal.getTime();
+        Schedule schedule = new Schedule(from);
+        view.setSchedule(schedule);
+        JTableOperator tableOperator = new JTableOperator(window);
+        boolean eveningTimeslot = (boolean) tableOperator.getValueAt(0, 3);
+        assertEquals(true , eveningTimeslot);
+    }
+
+    @Test
     public void tableHasExpectedNumberOfColumns() {
         JTableOperator tableOperator = new JTableOperator(window);
         assertEquals(4, tableOperator.getColumnCount());
     }
 
-//    @Test
-//    public void listItemsCanHaveTimeslotsSet() {
-//        Schedule schedule = new Schedule(2);
-//        JFrameOperator window = new JFrameOperator("Schedule");
-//        IScheduleView view = (IScheduleView) window.getWindow();
-//        view.setSchedule(schedule.getTimeSlots());
-//        JTableOperator tableOperator = new JTableOperator(window);
-//        assertEquals(6, tableOperator.getRowCount());
-//        assertNotNull(tableOperator.getValueAt(0,0));
-//        assertTrue(((TimeSlot) list.getModel().getElementAt(0)).isMorning());
-//    }
+    @Test
+    public void tableHasColumnNamedDate() {
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals("Date", tableOperator.getColumnName(0));
+    }
 
-//    @Test
-//    public void listItemsCanHaveTimeslotsSetThroughController() {
-//        Schedule schedule = new Schedule(2);
-//        JFrameOperator window = new JFrameOperator("Schedule");
-//        IScheduleView view = (IScheduleView) window.getWindow();
-//        ViewScheduleController controller = new ViewScheduleController(schedule, view);
-//        JTableOperator tableOperator = new JTableOperator(window);
-////        tableOperator.getRowCount();
-//        assertEquals(6, tableOperator.getRowCount());
-////        assertNotNull(list.getModel().getElementAt(0));
-//        assertTrue(((TimeSlot) list.getModel().getElementAt(0)).isMorning());
-//    }
+    @Test
+    public void tableHasColumnNamedMorning() {
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals("Morning", tableOperator.getColumnName(1));
+    }
+
+    @Test
+    public void tableHasColumnNameAfternoon() {
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals("Afternoon", tableOperator.getColumnName(2));
+    }
+
+    @Test
+    public void tableHasColumnNamedEvening() {
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals("Evening", tableOperator.getColumnName(3));
+    }
 
     @After
     public void tearDown() {
@@ -100,7 +151,7 @@ public class ViewScheduleTest {
             view.dispose();
             window.dispose();
         } catch (NullPointerException e) {
-//            e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

@@ -13,9 +13,9 @@ import java.util.List;
  * Created by laura on 05/03/15.
  */
 public class ViewSchedule extends JFrame implements IScheduleView{
-    private Map<Date, List<TimeSlot>> scheduledTimeSlots;
+    private Schedule schedule;
     private JTable timeslots;
-    private DefaultTableModel model = new DefaultTableModel(0, 0);
+    private DefaultTableModel model = new ScheduleTableModel(0, 0);
 
     public static ViewSchedule start() {
         ViewSchedule view = new ViewSchedule();
@@ -26,39 +26,45 @@ public class ViewSchedule extends JFrame implements IScheduleView{
 
     public void init() {
         this.setTitle("Schedule");
-        this.getContentPane().setLayout(new FlowLayout());
+        Container pane = this.getContentPane();
+        pane.setLayout(new FlowLayout());
+        pane.setSize(400, 400);
+        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        this.setSize(450, 450);
         this.model.addColumn("Date");
         this.model.addColumn("Morning");
         this.model.addColumn("Afternoon");
         this.model.addColumn("Evening");
         this.timeslots = new JTable(this.model);
-        this.getContentPane().add(this.timeslots);
-//        this.add(this.timeslots);
+        this.timeslots.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        this.timeslots.setRowSelectionAllowed(false);
+        this.timeslots.setFocusable(false);
+        JScrollPane scrollPane = new JScrollPane(this.timeslots, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        pane.add(scrollPane);
+        this.doLayout();
     }
 
     @Override
     public void setSchedule(Schedule schedule) {
-        this.scheduledTimeSlots = schedule.getAllTimeSlots();
-        this.addScheduleToTable(this.scheduledTimeSlots);
+        this.schedule = schedule;
+        this.addScheduleToTable(this.schedule);
     }
 
-    private void addScheduleToTable(Map<Date, List<TimeSlot>> timeslotsInSchedule) {
+    private void addScheduleToTable(Schedule schedule) {
+        Map<Date, List<TimeSlot>> timeslotsInSchedule = schedule.getAllTimeSlots();
         Iterator<Date> iter = timeslotsInSchedule.keySet().iterator();
         while (iter.hasNext()) {
             Date date = iter.next();
-            List<TimeSlot> timesForDate = timeslotsInSchedule.get(date);
-            this.addTimeslotToTable(date, timesForDate);
+            this.addDateToTable(date, schedule);
         }
     }
 
-    private void addTimeslotToTable(Date date, List<TimeSlot> timeslot) {
+    private void addDateToTable(Date date, Schedule schedule) {
         Vector vector = new Vector();
         vector.add(date);
-        vector.addAll(timeslot);
+        vector.add(schedule.hasMorningOnDate(date));
+        vector.add(schedule.hasAfternoonOnDate(date));
+        vector.add(schedule.hasEveningOnDate(date));
         this.model.addRow(vector);
-    }
-
-    public JTable getTable() {
-        return this.timeslots;
     }
 }

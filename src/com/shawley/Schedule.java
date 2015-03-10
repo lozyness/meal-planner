@@ -10,15 +10,6 @@ public class Schedule {
     private List<TimeSlot> allTimeslots = new ArrayList<TimeSlot>();
     private static Calendar cal = new GregorianCalendar();
 
-//    public Schedule(int days) {
-//        this.cal.setTime(new Date());
-//        for(int i=0; i<days; i++) {
-//            Date date = this.cal.getTime();
-//            this.addStandardTimeSlotListToDate(date);
-//            this.cal.add(Calendar.DATE, 1);
-//        }
-//    }
-
     public Schedule(Date date) {
         this.addStandardTimeSlotListToDate(date);
     }
@@ -104,5 +95,20 @@ public class Schedule {
 
     public Map<Date, List<TimeSlot>> getAllTimeSlots() {
         return this.timeSlots;
+    }
+
+    public boolean hasMorningOnDate(Date date) {
+        List<TimeSlot> times = this.getTimeSlots(date);
+        return times.contains(TimeSlot.createMorningTimeSlot());
+    }
+
+    public boolean hasAfternoonOnDate(Date date) {
+        List<TimeSlot> times = this.getTimeSlots(date);
+        return times.contains(TimeSlot.createAfternoonTimeSlot());
+    }
+
+    public boolean hasEveningOnDate(Date date) {
+        List<TimeSlot> times = this.getTimeSlots(date);
+        return times.contains(TimeSlot.createEveningTimeSlot());
     }
 }

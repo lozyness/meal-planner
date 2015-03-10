@@ -120,4 +120,126 @@ public class ScheduleTest {
         return dates;
     }
 
+    @Test
+    public void checkScheduleHasMorningTimeslotForDateOfOneDayWithMorning() {
+        Date[] dates = getScheduleForNumberOfDays(1);
+        Schedule schedule = new Schedule(dates[0]);
+        assertTrue(schedule.hasMorningOnDate(dates[0]));
+    }
+
+    @Test
+    public void checkScheduleCanHaveMorningTimeslotOnOneDayButNotAnother() {
+        Date[] dates = getScheduleForNumberOfDays(2);
+        Schedule schedule = new Schedule(dates[0], dates[1]);
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(dates[0]);
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR + 1);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
+        List<Event> eventList = new ArrayList<Event>();
+        eventList.add(event);
+        schedule.updateScheduleGivenEventList(dates[0], eventList);
+        assertFalse(schedule.hasMorningOnDate(dates[0]));
+        assertTrue(schedule.hasMorningOnDate(dates[1]));
+    }
+
+    @Test
+    public void checkScheduleHasNotGotMorningTimeslotForDateOfOneDayWithoutMorning() {
+        Date[] dates = getScheduleForNumberOfDays(1);
+        Schedule schedule = new Schedule(dates[0]);
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR + 1);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
+        List<Event> eventList = new ArrayList<Event>();
+        eventList.add(event);
+        schedule.updateScheduleGivenEventList(dates[0], eventList);
+        assertFalse(schedule.hasMorningOnDate(dates[0]));
+    }
+
+    @Test
+    public void checkScheduleHasAfternoonTimeslotForDateOfOneDayWithAfternoon() {
+        Date[] dates = getScheduleForNumberOfDays(1);
+        Schedule schedule = new Schedule(dates[0]);
+        assertTrue(schedule.hasAfternoonOnDate(dates[0]));
+    }
+
+    @Test
+    public void checkScheduleCanHaveAfternoonTimeslotOnOneDayButNotAnother() {
+        Date[] dates = getScheduleForNumberOfDays(2);
+        Schedule schedule = new Schedule(dates[0], dates[1]);
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(dates[0]);
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR + 1);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
+        List<Event> eventList = new ArrayList<Event>();
+        eventList.add(event);
+        schedule.updateScheduleGivenEventList(dates[0], eventList);
+        assertFalse(schedule.hasAfternoonOnDate(dates[0]));
+        assertTrue(schedule.hasAfternoonOnDate(dates[1]));
+    }
+
+    @Test
+    public void checkScheduleHasNotGotAfternoonTimeslotForDateOfOneDayWithoutAfternoon() {
+        Date[] dates = getScheduleForNumberOfDays(1);
+        Schedule schedule = new Schedule(dates[0]);
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR + 1);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
+        List<Event> eventList = new ArrayList<Event>();
+        eventList.add(event);
+        schedule.updateScheduleGivenEventList(dates[0], eventList);
+        assertFalse(schedule.hasAfternoonOnDate(dates[0]));
+    }
+    @Test
+    public void checkScheduleHasEveningTimeslotForDateOfOneDayWithEvening() {
+        Date[] dates = getScheduleForNumberOfDays(1);
+        Schedule schedule = new Schedule(dates[0]);
+        assertTrue(schedule.hasEveningOnDate(dates[0]));
+    }
+
+    @Test
+    public void checkScheduleCanHaveEveningTimeslotOnOneDayButNotAnother() {
+        Date[] dates = getScheduleForNumberOfDays(2);
+        Schedule schedule = new Schedule(dates[0], dates[1]);
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(dates[0]);
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR + 1);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
+        List<Event> eventList = new ArrayList<Event>();
+        eventList.add(event);
+        schedule.updateScheduleGivenEventList(dates[0], eventList);
+        assertFalse(schedule.hasEveningOnDate(dates[0]));
+        assertTrue(schedule.hasEveningOnDate(dates[1]));
+    }
+
+    @Test
+    public void checkScheduleHasNotGotEveningTimeslotForDateOfOneDayWithoutAfternoon() {
+        Date[] dates = getScheduleForNumberOfDays(1);
+        Schedule schedule = new Schedule(dates[0]);
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR);
+        Date from = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR + 1);
+        Date to = cal.getTime();
+        Event event = new Event(from, to);
+        List<Event> eventList = new ArrayList<Event>();
+        eventList.add(event);
+        schedule.updateScheduleGivenEventList(dates[0], eventList);
+        assertFalse(schedule.hasEveningOnDate(dates[0]));
+    }
+
 }
