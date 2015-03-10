@@ -116,6 +116,54 @@ public class ViewScheduleTest {
     }
 
     @Test
+    public void tableHasExpectedDatesGivenTodayAndTomorrow() {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date from = cal.getTime();
+        cal.add(Calendar.DATE, 1);
+        Date to = cal.getTime();
+        Schedule schedule = new Schedule(from, to);
+        view.setSchedule(schedule);
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals(2, tableOperator.getRowCount());
+        Date today = (Date) tableOperator.getValueAt(0, 0);
+        assertEquals(from, today);
+        Date tomorrow = (Date) tableOperator.getValueAt(1, 0);
+        assertEquals(to, tomorrow);
+    }
+
+    @Test
+    public void tableHasExpectedDatesGivenTodayAndDayAfterNext() {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        Date from = cal.getTime();
+        cal.add(Calendar.DATE, 1);
+        Date mid = cal.getTime();
+        cal.add(Calendar.DATE, 1);
+        Date to = cal.getTime();
+        Schedule schedule = new Schedule(from, to);
+        view.setSchedule(schedule);
+
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals(3, tableOperator.getRowCount());
+        Date firstDay = (Date) tableOperator.getValueAt(0,0);
+        assertEquals(from, firstDay);
+        Date middleDay = (Date) tableOperator.getValueAt(1,0);
+        assertEquals(mid, middleDay);
+        Date lastDay = (Date) tableOperator.getValueAt(2,0);
+        assertEquals(to, lastDay);
+    }
+
+    @Test
     public void tableHasExpectedNumberOfColumns() {
         JTableOperator tableOperator = new JTableOperator(window);
         assertEquals(4, tableOperator.getColumnCount());

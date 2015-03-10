@@ -38,6 +38,7 @@ public class ViewSchedule extends JFrame implements IScheduleView{
         this.timeslots = new JTable(this.model);
         this.timeslots.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         this.timeslots.setRowSelectionAllowed(false);
+        this.timeslots.setAutoCreateRowSorter(true);
         this.timeslots.setFocusable(false);
         JScrollPane scrollPane = new JScrollPane(this.timeslots, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         pane.add(scrollPane);
@@ -57,6 +58,9 @@ public class ViewSchedule extends JFrame implements IScheduleView{
             Date date = iter.next();
             this.addDateToTable(date, schedule);
         }
+        List <RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+        this.timeslots.getRowSorter().setSortKeys(sortKeys);
     }
 
     private void addDateToTable(Date date, Schedule schedule) {
