@@ -6,7 +6,7 @@ import java.util.List;
 
 public class IngredientList {
 
-    private List<String> ingredientList = new ArrayList<String>();
+    private final List<String> ingredientList = new ArrayList<>();
 
     public boolean isEmpty() {
         return this.ingredientList.size() == 0;

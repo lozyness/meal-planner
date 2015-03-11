@@ -2,14 +2,12 @@ package shawley.view;
 
 import javax.swing.table.DefaultTableModel;
 
-/**
- * Created by laura on 10/03/15.
- */
+@SuppressWarnings("WeakerAccess")
 public class ScheduleTableModel extends DefaultTableModel {
 
 //    private String dateColumnName = "Date";
 
-    public ScheduleTableModel(int rows, int cols) {
+    public ScheduleTableModel(@SuppressWarnings("SameParameterValue") int rows, @SuppressWarnings("SameParameterValue") int cols) {
         super(rows, cols);
     }
 

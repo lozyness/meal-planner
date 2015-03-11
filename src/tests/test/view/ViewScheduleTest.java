@@ -16,9 +16,6 @@ import java.util.GregorianCalendar;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-/**
- * Created by laura on 04/03/15.
- */
 public class ViewScheduleTest {
 
     private JFrameOperator window;
@@ -33,7 +30,7 @@ public class ViewScheduleTest {
     @Test
     public void testTableComponentExists() {
         try {
-            JTableOperator tableOperator = new JTableOperator(window);
+            new JTableOperator(window);
         } catch (TimeoutExpiredException e) {
             fail();
         }

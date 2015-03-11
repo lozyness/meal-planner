@@ -5,7 +5,6 @@ import org.junit.Test;
 import shawley.IngredientList;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -39,15 +38,11 @@ public class IngredientListTest {
     @Test
     public void testAddingFiveItemsToListIncrementsSizeByFive() {
         String baseName = "Ingredient";
-        List<String> ingredients = new ArrayList<String>();
+        List<String> ingredients = new ArrayList<>();
         for (int i = 0; i<5; i++) {
             ingredients.add(baseName+i);
         }
-        Iterator<String> iter = ingredients.iterator();
-        while(iter.hasNext()) {
-            String ingredient = iter.next();
-            this.ingredientsList.addIngredient(ingredient);
-        }
+        ingredients.forEach(this.ingredientsList::addIngredient);
         assertEquals(ingredients.size(), this.ingredientsList.size());
     }
 

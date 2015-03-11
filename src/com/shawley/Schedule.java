@@ -2,13 +2,10 @@ package shawley;
 
 import java.util.*;
 
-/**
- * Created by laura on 25/02/15.
- */
 public class Schedule {
-    private Map<Date,List<TimeSlot>> timeSlots = new HashMap<Date,List<TimeSlot>>();
-    private List<TimeSlot> allTimeslots = new ArrayList<TimeSlot>();
-    private static Calendar cal = new GregorianCalendar();
+    private final Map<Date,List<TimeSlot>> timeSlots = new HashMap<>();
+    private final List<TimeSlot> allTimeslots = new ArrayList<>();
+    private static final Calendar cal = new GregorianCalendar();
 
     public Schedule(Date date) {
         this.addStandardTimeSlotListToDate(date);
@@ -16,11 +13,7 @@ public class Schedule {
 
     public Schedule(Date from, Date to) {
         List<Date> dates = this.getDateListForDateRange(from, to);
-        Iterator<Date> iter = dates.iterator();
-        while(iter.hasNext()) {
-            Date date = iter.next();
-            this.addStandardTimeSlotListToDate(date);
-        }
+        dates.forEach(this::addStandardTimeSlotListToDate);
     }
 
     private void addStandardTimeSlotListToDate(Date date) {
@@ -34,7 +27,7 @@ public class Schedule {
     }
 
     private List<TimeSlot> createStandardDayTimeSlotList() {
-        ArrayList<TimeSlot> times = new ArrayList<TimeSlot>();
+        ArrayList<TimeSlot> times = new ArrayList<>();
         times.add(TimeSlot.createMorningTimeSlot());
         times.add(TimeSlot.createAfternoonTimeSlot());
         times.add(TimeSlot.createEveningTimeSlot());
@@ -64,7 +57,7 @@ public class Schedule {
     }
 
     private List<Date> getDateListForDateRange(Date from, Date to) {
-        List<Date> dates = new ArrayList<Date>();
+        List<Date> dates = new ArrayList<>();
         cal.setTime(from);
         while (cal.getTime().before(to) || cal.getTime().equals(to))
         {
@@ -76,18 +69,14 @@ public class Schedule {
     }
 
     public void updateScheduleGivenEventList(Date date, List<Event> eventList) {
-        Iterator<Event> eventsIter = eventList.iterator();
-        while (eventsIter.hasNext()) {
-            Event event = eventsIter.next();
+        for (Event event : eventList) {
             this.removeEventTimeslotsFromSchedule(date, event);
         }
     }
 
     private void removeEventTimeslotsFromSchedule(Date date, Event event) {
         List<TimeSlot> eventTimeslots = event.getTimeslots();
-        Iterator<TimeSlot> eventTimeslotIter = eventTimeslots.iterator();
-        while(eventTimeslotIter.hasNext()) {
-            TimeSlot ts = eventTimeslotIter.next();
+        for (TimeSlot ts : eventTimeslots) {
             this.getTimeSlots(date).remove(ts);
             this.allTimeslots.remove(ts);
         }

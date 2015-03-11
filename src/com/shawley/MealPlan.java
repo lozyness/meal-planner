@@ -2,11 +2,8 @@ package shawley;
 
 import java.util.*;
 
-/**
- * Created by laura on 02/03/15.
- */
 public class MealPlan {
-    private Schedule schedule;
+    private final Schedule schedule;
 
     private MealPlan(Date from, Date to) {
         this.schedule = new Schedule(from, to);
@@ -26,7 +23,7 @@ public class MealPlan {
     }
 
     private void updateSchedule(Date date, Event event) {
-        List<Event> eventList = new ArrayList<Event>();
+        List<Event> eventList = new ArrayList<>();
         eventList.add(event);
         this.schedule.updateScheduleGivenEventList(date, eventList);
     }

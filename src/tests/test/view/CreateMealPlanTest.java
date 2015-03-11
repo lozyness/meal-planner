@@ -31,8 +31,8 @@ public class CreateMealPlanTest {
     @Test
     public void checkInputComponentsExist() {
         try {
-            JSpinnerOperator spinnerFrom = this.getFromDateInput();
-            JSpinnerOperator spinnerTo = this.getToDateInput();
+            this.getFromDateInput();
+            this.getToDateInput();
         } catch (TimeoutExpiredException e) {
             fail();
         }
@@ -41,7 +41,7 @@ public class CreateMealPlanTest {
     @Test
     public void checkInputComponentIsForDates() {
         JSpinnerOperator spinner = getFromDateInput();
-        assertEquals(new SpinnerDateModel().getClass(), spinner.getModel().getClass());
+        assertEquals(SpinnerDateModel.class, spinner.getModel().getClass());
     }
 
     @Test
@@ -92,8 +92,8 @@ public class CreateMealPlanTest {
         return new JSpinnerOperator(this.window, 0);
     }
 
-    private JSpinnerOperator getToDateInput() {
-        return new JSpinnerOperator(this.window, 1);
+    private void getToDateInput() {
+        new JSpinnerOperator(this.window, 1);
     }
 
     @After

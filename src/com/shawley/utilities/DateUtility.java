@@ -4,9 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-/**
- * Created by laura on 11/03/15.
- */
 public class DateUtility {
 
     public static Date getMidnightForDate(Date date) {

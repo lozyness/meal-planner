@@ -9,13 +9,9 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-/**
- * Created by laura on 05/03/15.
- */
 public class ViewSchedule extends JFrame implements IScheduleView{
-    private Schedule schedule;
     private JTable timeslots;
-    private DefaultTableModel model = new ScheduleTableModel(0, 0);
+    private final DefaultTableModel model = new ScheduleTableModel(0, 0);
 
     public static ViewSchedule start() {
         ViewSchedule view = new ViewSchedule();
@@ -24,12 +20,12 @@ public class ViewSchedule extends JFrame implements IScheduleView{
         return view;
     }
 
-    public void init() {
+    void init() {
         this.setTitle("Schedule");
         Container pane = this.getContentPane();
         pane.setLayout(new FlowLayout());
         pane.setSize(400, 400);
-        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setSize(450, 450);
         this.model.addColumn("Date");
         this.model.addColumn("Morning");
@@ -47,24 +43,21 @@ public class ViewSchedule extends JFrame implements IScheduleView{
 
     @Override
     public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-        this.addScheduleToTable(this.schedule);
+        this.addScheduleToTable(schedule);
     }
 
     private void addScheduleToTable(Schedule schedule) {
         Map<Date, List<TimeSlot>> timeslotsInSchedule = schedule.getAllTimeSlots();
-        Iterator<Date> iter = timeslotsInSchedule.keySet().iterator();
-        while (iter.hasNext()) {
-            Date date = iter.next();
+        for (Date date : timeslotsInSchedule.keySet()) {
             this.addDateToTable(date, schedule);
         }
-        List <RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+        List <RowSorter.SortKey> sortKeys = new ArrayList<>();
         sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
         this.timeslots.getRowSorter().setSortKeys(sortKeys);
     }
 
     private void addDateToTable(Date date, Schedule schedule) {
-        Vector vector = new Vector();
+        Vector<Object> vector = new Vector<>();
         vector.add(date);
         vector.add(schedule.hasMorningOnDate(date));
         vector.add(schedule.hasAfternoonOnDate(date));

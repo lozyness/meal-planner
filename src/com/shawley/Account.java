@@ -1,33 +1,28 @@
 package shawley;
 
-/**
- * Created by laura on 24/02/15.
- */
 public class Account implements IParticipant{
 
     private String name;
 
-    private Account(String name, String id) {
+    private Account(String name) {
         this.name = name;
     }
 
-    @Override
+    @SuppressWarnings("SameReturnValue")
     public String id() {
         return "id";
     }
 
-    @Override
     public String name() {
         return this.name;
     }
 
-    @Override
-    public void editName(String newName) {
+    public void editName(@SuppressWarnings("SameParameterValue") String newName) {
         this.name = newName;
     }
 
 
-    public static Account createNewAccount(String name, String id) {
-        return new Account(name, id);
+    public static Account createNewAccount(@SuppressWarnings("SameParameterValue") String name) {
+        return new Account(name);
     }
 }

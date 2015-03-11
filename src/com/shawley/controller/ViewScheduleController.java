@@ -8,9 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-/**
- * Created by laura on 04/03/15.
- */
 public class ViewScheduleController {
 
     public ViewScheduleController(Schedule schedule, IScheduleView view) {
@@ -27,12 +24,10 @@ public class ViewScheduleController {
 
         Date from = cal.getTime();
         cal.add(Calendar.DATE, 1);
-        Date mid = cal.getTime();
-        cal.add(Calendar.DATE, 1);
         Date to = cal.getTime();
         Schedule schedule = new Schedule(from, to);
 
         ViewSchedule view = ViewSchedule.start();
-        ViewScheduleController controller = new ViewScheduleController(schedule, view);
+        new ViewScheduleController(schedule, view);
     }
 }

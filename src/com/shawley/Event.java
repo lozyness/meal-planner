@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by laura on 26/02/15.
- */
 public class Event {
-    private Date from;
-    private Date to;
-    private List<TimeSlot> timeslots = new ArrayList<TimeSlot>();
+    private final Date from;
+    private List<TimeSlot> timeslots = new ArrayList<>();
 
     public Event(Date date) {
         this.from = date;
@@ -19,7 +15,6 @@ public class Event {
 
     public Event(Date from, Date to) {
         this.from = from;
-        this.to = to;
         this.configureTimeslotsForDate(from, to);
     }
 

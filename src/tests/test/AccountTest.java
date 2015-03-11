@@ -12,7 +12,7 @@ public class AccountTest {
 
     @Before
     public void setup() {
-        this.account = Account.createNewAccount("name", "id");
+        this.account = Account.createNewAccount("name");
     }
 
     @Test

@@ -18,11 +18,11 @@ public class TimeSlot {
     private static Date AFTERNOON_START_DATE;
     private static Date EVENING_START_DATE;
     private static Date EVENING_END_DATE;
-    private static Calendar cal = new GregorianCalendar();
+    private static final Calendar cal = new GregorianCalendar();
 
     //@TODO: break into two classes - Date and TimeSlot
 
-    private int timeslot;
+    private final int timeslot;
 
     private TimeSlot(int timeslot) {
         this.timeslot = timeslot;
@@ -178,7 +178,7 @@ public class TimeSlot {
     }
 
     public static List<TimeSlot> getTimeslotListForDateRange(Date from, Date to) {
-        List<TimeSlot> result = new ArrayList<TimeSlot>();
+        List<TimeSlot> result = new ArrayList<>();
         if(TimeSlot.dateInMorning(from, to)) {
             result.add(TimeSlot.createMorningTimeSlot());
         }

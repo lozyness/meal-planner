@@ -16,7 +16,7 @@ public class ScheduleTest {
     @Test
     public void testGenerateScheduleForTodayGeneratesRequiredTimeSlots() {
         Schedule schedule = new Schedule(new Date());
-        List<TimeSlot> list = new ArrayList<TimeSlot>();
+        List<TimeSlot> list = new ArrayList<>();
         list.add(TimeSlot.createMorningTimeSlot());
         list.add(TimeSlot.createAfternoonTimeSlot());
         list.add(TimeSlot.createEveningTimeSlot());
@@ -28,7 +28,7 @@ public class ScheduleTest {
     public void testGenerateScheduleForTodayAndTomorrowGeneratesRequiredTimeSlots() {
         Date[] dates = this.getScheduleForNumberOfDays(2);
         Schedule schedule = new Schedule(dates[0], dates[1]);
-        List<TimeSlot> list = new ArrayList<TimeSlot>();
+        List<TimeSlot> list = new ArrayList<>();
         list.add(TimeSlot.createMorningTimeSlot());
         list.add(TimeSlot.createAfternoonTimeSlot());
         list.add(TimeSlot.createEveningTimeSlot());
@@ -43,11 +43,10 @@ public class ScheduleTest {
     public void testCanRetrieveTodaysTimeSlots() {
         Date[] dates = this.getScheduleForNumberOfDays(2);
         Schedule schedule = new Schedule(dates[0], dates[1]);
-        List<TimeSlot> list = new ArrayList<TimeSlot>();
+        List<TimeSlot> list = new ArrayList<>();
         list.add(TimeSlot.createMorningTimeSlot());
         list.add(TimeSlot.createAfternoonTimeSlot());
         list.add(TimeSlot.createEveningTimeSlot());
-        Date date = new Date();
         List<TimeSlot> returnedTimeSlots = schedule.getTimeSlots(new Date());
         assertEquals("Number of timeslots in schedule for one day not as expected", list.size(), returnedTimeSlots.size());
         assertEquals(list, returnedTimeSlots);
@@ -55,7 +54,7 @@ public class ScheduleTest {
 
     @Test
     public void testCanGenerateTimeSlotsForDateRange() {
-        List<TimeSlot> list = new ArrayList<TimeSlot>();
+        List<TimeSlot> list = new ArrayList<>();
         list.add(TimeSlot.createMorningTimeSlot());
         list.add(TimeSlot.createAfternoonTimeSlot());
         list.add(TimeSlot.createEveningTimeSlot());
@@ -88,7 +87,7 @@ public class ScheduleTest {
         cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR + 3);
         Date to = cal.getTime();
         Event event = new Event(from, to);
-        List<Event> eventList = new ArrayList<Event>();
+        List<Event> eventList = new ArrayList<>();
         eventList.add(event);
         Schedule schedule = new Schedule(from);
         schedule.updateScheduleGivenEventList(from, eventList);
@@ -105,9 +104,8 @@ public class ScheduleTest {
         Schedule schedule = new Schedule(dates[0], dates[1]);
         Map<Date, List<TimeSlot>> timeslotMap = schedule.getAllTimeSlots();
         assertEquals(2, timeslotMap.keySet().size());
-        Iterator<Date> iterator = timeslotMap.keySet().iterator();
-        while (iterator.hasNext()) {
-            List<TimeSlot> times = timeslotMap.get(iterator.next());
+        for (Date date : timeslotMap.keySet()) {
+            List<TimeSlot> times = timeslotMap.get(date);
             assertEquals(3, times.size());
         }
     }
@@ -141,7 +139,7 @@ public class ScheduleTest {
         cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR + 1);
         Date to = cal.getTime();
         Event event = new Event(from, to);
-        List<Event> eventList = new ArrayList<Event>();
+        List<Event> eventList = new ArrayList<>();
         eventList.add(event);
         schedule.updateScheduleGivenEventList(dates[0], eventList);
         assertFalse(schedule.hasMorningOnDate(dates[0]));
@@ -158,7 +156,7 @@ public class ScheduleTest {
         cal.set(Calendar.HOUR_OF_DAY, TimeSlot.MORNING_START_HOUR + 1);
         Date to = cal.getTime();
         Event event = new Event(from, to);
-        List<Event> eventList = new ArrayList<Event>();
+        List<Event> eventList = new ArrayList<>();
         eventList.add(event);
         schedule.updateScheduleGivenEventList(dates[0], eventList);
         assertFalse(schedule.hasMorningOnDate(dates[0]));
@@ -182,7 +180,7 @@ public class ScheduleTest {
         cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR + 1);
         Date to = cal.getTime();
         Event event = new Event(from, to);
-        List<Event> eventList = new ArrayList<Event>();
+        List<Event> eventList = new ArrayList<>();
         eventList.add(event);
         schedule.updateScheduleGivenEventList(dates[0], eventList);
         assertFalse(schedule.hasAfternoonOnDate(dates[0]));
@@ -199,7 +197,7 @@ public class ScheduleTest {
         cal.set(Calendar.HOUR_OF_DAY, TimeSlot.AFTERNOON_START_HOUR + 1);
         Date to = cal.getTime();
         Event event = new Event(from, to);
-        List<Event> eventList = new ArrayList<Event>();
+        List<Event> eventList = new ArrayList<>();
         eventList.add(event);
         schedule.updateScheduleGivenEventList(dates[0], eventList);
         assertFalse(schedule.hasAfternoonOnDate(dates[0]));
@@ -222,7 +220,7 @@ public class ScheduleTest {
         cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR + 1);
         Date to = cal.getTime();
         Event event = new Event(from, to);
-        List<Event> eventList = new ArrayList<Event>();
+        List<Event> eventList = new ArrayList<>();
         eventList.add(event);
         schedule.updateScheduleGivenEventList(dates[0], eventList);
         assertFalse(schedule.hasEveningOnDate(dates[0]));
@@ -239,7 +237,7 @@ public class ScheduleTest {
         cal.set(Calendar.HOUR_OF_DAY, TimeSlot.EVENING_START_HOUR + 1);
         Date to = cal.getTime();
         Event event = new Event(from, to);
-        List<Event> eventList = new ArrayList<Event>();
+        List<Event> eventList = new ArrayList<>();
         eventList.add(event);
         schedule.updateScheduleGivenEventList(dates[0], eventList);
         assertFalse(schedule.hasEveningOnDate(dates[0]));
