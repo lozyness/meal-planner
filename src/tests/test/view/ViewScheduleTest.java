@@ -7,6 +7,7 @@ import org.netbeans.jemmy.TimeoutExpiredException;
 import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JTableOperator;
 import shawley.Schedule;
+import shawley.utilities.DateUtility;
 import shawley.view.ViewSchedule;
 
 import java.util.Calendar;
@@ -62,13 +63,10 @@ public class ViewScheduleTest {
 
     @Test
     public void tableHasExpectedDateForDay() {
+        Date from = DateUtility.getMidnightForDate(new Date());
+
         Calendar cal = new GregorianCalendar();
-        cal.setTime(new Date());
-        cal.set(Calendar.HOUR,0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        Date from = cal.getTime();
+        cal.setTime(from);
         Schedule schedule = new Schedule(from);
         view.setSchedule(schedule);
         JTableOperator tableOperator = new JTableOperator(window);
@@ -114,13 +112,10 @@ public class ViewScheduleTest {
 
     @Test
     public void tableHasExpectedDatesGivenTodayAndTomorrow() {
+        Date from = DateUtility.getMidnightForDate(new Date());
+
         Calendar cal = new GregorianCalendar();
-        cal.setTime(new Date());
-        cal.set(Calendar.HOUR, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        Date from = cal.getTime();
+        cal.setTime(from);
         cal.add(Calendar.DATE, 1);
         Date to = cal.getTime();
         Schedule schedule = new Schedule(from, to);
@@ -135,18 +130,16 @@ public class ViewScheduleTest {
 
     @Test
     public void tableHasExpectedDatesGivenTodayAndDayAfterNext() {
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(new Date());
-        cal.set(Calendar.HOUR, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
+        Date from = DateUtility.getMidnightForDate(new Date());
 
-        Date from = cal.getTime();
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(from);
         cal.add(Calendar.DATE, 1);
         Date mid = cal.getTime();
+
         cal.add(Calendar.DATE, 1);
         Date to = cal.getTime();
+
         Schedule schedule = new Schedule(from, to);
         view.setSchedule(schedule);
 

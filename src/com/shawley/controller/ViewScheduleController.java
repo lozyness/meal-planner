@@ -1,6 +1,7 @@
 package shawley.controller;
 
 import shawley.Schedule;
+import shawley.utilities.DateUtility;
 import shawley.view.IScheduleView;
 import shawley.view.ViewSchedule;
 
@@ -15,16 +16,13 @@ public class ViewScheduleController {
     }
 
     public static void main(String[] args) {
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(new Date());
-        cal.set(Calendar.HOUR, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
+        Date from = DateUtility.getMidnightForDate(new Date());
 
-        Date from = cal.getTime();
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(from);
         cal.add(Calendar.DATE, 1);
         Date to = cal.getTime();
+
         Schedule schedule = new Schedule(from, to);
 
         ViewSchedule view = ViewSchedule.start();
