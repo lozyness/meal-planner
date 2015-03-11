@@ -1,4 +1,4 @@
-package test.view;
+package test.controller;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
