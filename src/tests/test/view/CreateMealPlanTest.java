@@ -53,25 +53,19 @@ public class CreateMealPlanTest {
     }
 
     @Test
-    public void checkDateInputMaximumInThreeMonths() {
+    public void checkDateInputMaximumInIsLastDayOfNextMonth() {
         JSpinnerOperator spinner = getFromDateInput();
-        Date today = DateUtility.getMidnightForDate(new Date());
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(today);
-        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        cal.add(Calendar.MONTH, 4);
-        cal.add(Calendar.DATE, (dayOfMonth)*-1);
-        this.view.setLatestDate(cal.getTime());
+        Date defaultDate = (Date) spinner.getValue();
         Date maxDate = (Date) spinner.getMaximum();
-        assertEquals(cal.getTime(), maxDate);
+        assertEquals(DateUtility.getLastDayOfMonthAfterDate(defaultDate), maxDate);
     }
 
     @Test
-    public void checkDateInputMinimumIsToday() {
+    public void checkDateInputMinimumIsTheDefaultDate() {
         JSpinnerOperator spinner = getFromDateInput();
-        Date today = DateUtility.getMidnightForDate(new Date());
-        Date minDate = (Date) spinner.getMinimum();
-        assertEquals(today, minDate);
+        Date defaultDate = (Date) spinner.getValue();
+        SpinnerDateModel model = (SpinnerDateModel) spinner.getModel();
+        assertEquals(defaultDate, model.getStart());
     }
 
     @Test
@@ -83,17 +77,23 @@ public class CreateMealPlanTest {
         cal.add(Calendar.DATE, 1);
         Date tomorrow = cal.getTime();
         cal.add(Calendar.DATE, 10);
-        view.setLatestDate(cal.getTime());
         Date nextDate = (Date) spinner.getNextValue();
         assertEquals(tomorrow, nextDate);
+    }
+
+    @Test
+    public void checkToDateDefaultsToEndOfWeek() {
+        Date expectedDate = DateUtility.getLastDayOfWeekForWeekContainingDate(new Date());
+        JSpinnerOperator spinner = this.getToDateInput();
+        assertEquals(expectedDate, spinner.getValue());
     }
 
     private JSpinnerOperator getFromDateInput() {
         return new JSpinnerOperator(this.window, 0);
     }
 
-    private void getToDateInput() {
-        new JSpinnerOperator(this.window, 1);
+    private JSpinnerOperator getToDateInput() {
+        return new JSpinnerOperator(this.window, 1);
     }
 
     @After
