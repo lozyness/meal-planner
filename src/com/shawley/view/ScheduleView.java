@@ -9,24 +9,18 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class ViewSchedule extends JFrame implements IScheduleView{
+public class ScheduleView extends JPanel implements IScheduleView{
     private JTable timeslots;
     private final DefaultTableModel model = new ScheduleTableModel(0, 0);
 
-    public static ViewSchedule start() {
-        ViewSchedule view = new ViewSchedule();
-        view.init();
-        view.setVisible(true);
-        return view;
+    public ScheduleView() {
+        this.init();
+        this.setVisible(true);
     }
 
     void init() {
-        this.setTitle("Schedule");
-        Container pane = this.getContentPane();
-        pane.setLayout(new FlowLayout());
-        pane.setSize(400, 400);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setSize(450, 450);
+        this.setLayout(new FlowLayout());
+        this.setSize(400, 400);
         this.model.addColumn("Date");
         this.model.addColumn("Morning");
         this.model.addColumn("Afternoon");
@@ -37,8 +31,7 @@ public class ViewSchedule extends JFrame implements IScheduleView{
         this.timeslots.setAutoCreateRowSorter(true);
         this.timeslots.setFocusable(false);
         JScrollPane scrollPane = new JScrollPane(this.timeslots, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        pane.add(scrollPane);
-        this.doLayout();
+        this.add(scrollPane);
     }
 
     @Override

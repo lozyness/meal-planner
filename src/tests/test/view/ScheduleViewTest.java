@@ -8,30 +8,34 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JTableOperator;
 import shawley.Schedule;
 import shawley.utilities.DateUtility;
-import shawley.view.ViewSchedule;
+import shawley.view.ScheduleView;
 
+import javax.swing.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
-public class ViewScheduleTest {
+public class ScheduleViewTest {
 
     private JFrameOperator window;
-    private ViewSchedule view;
+    private ScheduleView view;
 
     @Before
     public void setup() {
-        this.view = ViewSchedule.start();
-        this.window = new JFrameOperator("Schedule");
+        String windowName = "Meal Planner";
+        JFrame appView = new JFrame(windowName);
+        this.view = new ScheduleView();
+        appView.add(this.view);
+        appView.setVisible(true);
+        this.window = new JFrameOperator(windowName);
     }
 
     @Test
     public void testTableComponentExists() {
         try {
-            new JTableOperator(window);
+            assertNotNull(new JTableOperator(window));
         } catch (TimeoutExpiredException e) {
             fail();
         }
@@ -43,8 +47,8 @@ public class ViewScheduleTest {
         cal.setTime(new Date());
         Date from = cal.getTime();
         Schedule schedule = new Schedule(from);
-        view.setSchedule(schedule);
-        JTableOperator tableOperator = new JTableOperator(window);
+        this.view.setSchedule(schedule);
+        JTableOperator tableOperator = new JTableOperator(this.window);
         assertEquals(1, tableOperator.getRowCount());
     }
 
@@ -186,7 +190,6 @@ public class ViewScheduleTest {
     @After
     public void tearDown() {
         try {
-            view.dispose();
             window.dispose();
         } catch (NullPointerException e) {
             e.printStackTrace();

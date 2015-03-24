@@ -8,7 +8,7 @@ import shawley.view.IScheduleView;
 
 import java.util.Date;
 
-public class ViewScheduleControllerTest {
+public class ScheduleViewControllerTest {
 
     @Test
     public void testCreatingScheduleViewerControllerSetsUpViewWithTimeslotDataToDisplay() throws Exception {

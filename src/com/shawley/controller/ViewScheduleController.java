@@ -3,7 +3,7 @@ package shawley.controller;
 import shawley.Schedule;
 import shawley.utilities.DateUtility;
 import shawley.view.IScheduleView;
-import shawley.view.ViewSchedule;
+import shawley.view.ScheduleView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -25,7 +25,7 @@ public class ViewScheduleController {
 
         Schedule schedule = new Schedule(from, to);
 
-        ViewSchedule view = ViewSchedule.start();
+        ScheduleView view = new ScheduleView();
         new ViewScheduleController(schedule, view);
     }
 }
