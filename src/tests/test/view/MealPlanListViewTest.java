@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
+import org.netbeans.jemmy.operators.JTableOperator;
 import shawley.view.MealPlanListView;
 
 import javax.swing.*;
@@ -29,6 +30,11 @@ public class MealPlanListViewTest {
     }
 
     @Test
+    public void checkPlanListHasButtonPanel() {
+        assertNotNull(this.getButtonPanel());
+    }
+
+    @Test
     public void checkPlanListHasAddButton() {
         JButtonOperator button = new JButtonOperator(this.window, "Add");
     }
@@ -41,11 +47,6 @@ public class MealPlanListViewTest {
     @Test
     public void checkPlanListHasRemoveButton() {
         JButtonOperator button = new JButtonOperator(this.window, "Remove");
-    }
-
-    @Test
-    public void checkPlanListHasButtonPanel() {
-        assertNotNull(this.getButtonPanel());
     }
 
     @Test
@@ -62,13 +63,27 @@ public class MealPlanListViewTest {
     }
 
     @Test
-    public void checkListComponentExists() {
-        assertNotNull(this.getListComponent());
+    public void checkTableComponentExists() {
+        assertEquals(JTable.class, this.getTableComponent().getClass());
     }
 
-    private Component getListComponent() {
-        Component list = this.getComponentForArea(this.getListPanel(), BorderLayout.CENTER);
-        return list;
+    @Test
+    public void checkTableComponentHasFromColumn() {
+        JTableOperator table = new JTableOperator(this.window);
+        assertEquals("From", table.getColumnName(0));
+    }
+
+    @Test
+    public void checkTableComponentHasToColumn() {
+        JTableOperator table = new JTableOperator(this.window);
+        assertEquals("To", table.getColumnName(1));
+    }
+
+    private JTable getTableComponent() {
+        JScrollPane pane = (JScrollPane) this.getComponentForArea(this.getListPanel(), BorderLayout.CENTER);
+        Component[] components = pane.getViewport().getComponents();
+        JTable table = (JTable) components[0];
+        return table;
     }
 
     private JPanel getButtonPanel() {
@@ -77,7 +92,6 @@ public class MealPlanListViewTest {
     }
 
     private JPanel getListPanel() {
-//        return (JPanel) this.getComponentForArea(this.window.getContentPane(), BorderLayout.WEST);
         return this.view;
     }
 

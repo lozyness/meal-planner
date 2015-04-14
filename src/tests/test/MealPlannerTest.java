@@ -35,7 +35,7 @@ public class MealPlannerTest {
     @Test
     public void checkApplicationIsSizedCorrectly() {
         Dimension dim = this.window.getSize();
-        assertEquals(new Dimension(750, 600), dim);
+        assertEquals(new Dimension(1000, 600), dim);
     }
 
     @Test

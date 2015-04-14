@@ -5,9 +5,6 @@ import shawley.view.ScheduleView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class MealPlanner {
 
@@ -16,7 +13,7 @@ public class MealPlanner {
     public MealPlanner() {
         this.frame = new JFrame("Meal Planner");
         this.init(frame);
-        frame.setSize(750, 600);
+        frame.setSize(1000, 600);
     }
 
     private void init(JFrame frame) {
@@ -58,14 +55,7 @@ public class MealPlanner {
     }
 
     private void addScheduleView() {
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(new Date());
-        Date from = cal.getTime();
-        cal.add(Calendar.DATE, 3);
-        Date to = cal.getTime();
-        Schedule schedule = new Schedule(from, to);
         ScheduleView view = new ScheduleView();
-        view.setSchedule(schedule);
         this.setupScheduleView(view);
     }
 
