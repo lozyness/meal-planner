@@ -6,15 +6,13 @@ import java.awt.*;
 
 public class MealPlanListView extends JPanel {
 
-    private final DefaultTableModel model = new DefaultTableModel(0, 0);
-
     public MealPlanListView() {
         this.setSize(200, 400);
         this.setLayout(new BorderLayout());
-        this.model.addColumn("From");
-        this.model.addColumn("To");
-        JTable table = new JTable(this.model);
-//        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        DefaultTableModel model = new DefaultTableModel(0, 0);
+        model.addColumn("From");
+        model.addColumn("To");
+        JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.add(scrollPane, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();

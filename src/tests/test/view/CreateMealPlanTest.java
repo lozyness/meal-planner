@@ -103,7 +103,6 @@ public class CreateMealPlanTest {
         Date maxDate = (Date) spinner.getMaximum();
         Calendar cal = new GregorianCalendar();
         cal.setTime(DateUtility.getLastDayOfMonthAfterDate(defaultDate));
-        Date end = DateUtility.getLastDayOfWeekForWeekContainingDate(cal.getTime());
         assertEquals(cal.getTime(), maxDate);
     }
 
@@ -139,7 +138,7 @@ public class CreateMealPlanTest {
     @Test
     public void checkSubmitButtonExists() {
         try {
-            JButtonOperator button = new JButtonOperator(this.window, "Submit");
+            new JButtonOperator(this.window, "Submit");
         } catch (TimeoutExpiredException e) {
             fail();
         }

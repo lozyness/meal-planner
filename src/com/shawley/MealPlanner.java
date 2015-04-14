@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class MealPlanner {
 
-    private JFrame frame;
+    private final JFrame frame;
 
     public MealPlanner() {
         this.frame = new JFrame("Meal Planner");
@@ -27,11 +27,11 @@ public class MealPlanner {
         container.add(new JPanel(), BorderLayout.EAST);
     }
 
-    public void setupScheduleView(JPanel scheduleView) {
+    void setupScheduleView(JPanel scheduleView) {
         this.frame.getContentPane().add(scheduleView, BorderLayout.CENTER);
     }
 
-    public void setupPlanListView(JPanel planListView) {
+    void setupPlanListView(JPanel planListView) {
         this.frame.getContentPane().add(planListView, BorderLayout.WEST);
     }
 

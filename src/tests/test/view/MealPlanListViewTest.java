@@ -3,6 +3,7 @@ package test.view;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.netbeans.jemmy.TimeoutExpiredException;
 import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JTableOperator;
@@ -13,6 +14,7 @@ import java.awt.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class MealPlanListViewTest {
 
@@ -36,17 +38,29 @@ public class MealPlanListViewTest {
 
     @Test
     public void checkPlanListHasAddButton() {
-        JButtonOperator button = new JButtonOperator(this.window, "Add");
+        try {
+            new JButtonOperator(this.window, "Add");
+        } catch (TimeoutExpiredException e) {
+            fail();
+        }
     }
 
     @Test
     public void checkPlanListHasEditButton() {
-        JButtonOperator button = new JButtonOperator(this.window, "Edit");
+        try {
+            new JButtonOperator(this.window, "Edit");
+        } catch (TimeoutExpiredException e) {
+            fail();
+        }
     }
 
     @Test
     public void checkPlanListHasRemoveButton() {
-        JButtonOperator button = new JButtonOperator(this.window, "Remove");
+        try {
+            new JButtonOperator(this.window, "Remove");
+        } catch (TimeoutExpiredException e) {
+            fail();
+        }
     }
 
     @Test
@@ -82,13 +96,11 @@ public class MealPlanListViewTest {
     private JTable getTableComponent() {
         JScrollPane pane = (JScrollPane) this.getComponentForArea(this.getListPanel(), BorderLayout.CENTER);
         Component[] components = pane.getViewport().getComponents();
-        JTable table = (JTable) components[0];
-        return table;
+        return (JTable) components[0];
     }
 
     private JPanel getButtonPanel() {
-        JPanel buttonPanel = (JPanel) this.getComponentForArea(this.getListPanel(), BorderLayout.SOUTH);
-        return buttonPanel;
+        return (JPanel) this.getComponentForArea(this.getListPanel(), BorderLayout.SOUTH);
     }
 
     private JPanel getListPanel() {

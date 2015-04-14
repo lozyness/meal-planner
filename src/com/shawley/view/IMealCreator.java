@@ -1,5 +1,5 @@
 package shawley.view;
 
-public interface IMealCreator {
+interface IMealCreator {
 
 }
