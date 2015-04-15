@@ -7,14 +7,18 @@ import org.netbeans.jemmy.TimeoutExpiredException;
 import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JTableOperator;
+import shawley.MealPlan;
 import shawley.view.MealPlanListView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class MealPlanListViewTest {
 
@@ -91,6 +95,41 @@ public class MealPlanListViewTest {
     public void checkTableComponentHasToColumn() {
         JTableOperator table = new JTableOperator(this.window);
         assertEquals("To", table.getColumnName(1));
+    }
+
+    @Test
+    public void checkTableHasExpectedNumberOfRowsForOnePlan() {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        Date from = cal.getTime();
+        cal.add(Calendar.DATE, 1);
+        Date to = cal.getTime();
+        List<MealPlan> planList = new ArrayList<>();
+        planList.add(MealPlan.createMealPlanForDateRange(from, to));
+        view.setMealPlanList(planList);
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals(1, tableOperator.getRowCount());
+    }
+
+    @Test
+    public void checkTableHasExpectedNumberOfRowsForTwoPlans() {
+        List<MealPlan> planList = new ArrayList<MealPlan>();
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        Date from = cal.getTime();
+        cal.add(Calendar.DATE, 1);
+        Date to = cal.getTime();
+        MealPlan planOne = MealPlan.createMealPlanForDateRange(from, to);
+        planList.add(planOne);
+        cal.add(Calendar.DATE, 1);
+        from = cal.getTime();
+        cal.add(Calendar.DATE, 1);
+        to = cal.getTime();
+        MealPlan planTwo = MealPlan.createMealPlanForDateRange(from, to);
+        planList.add(planTwo);
+        view.setMealPlanList(planList);
+        JTableOperator tableOperator = new JTableOperator(window);
+        assertEquals(2, tableOperator.getRowCount());
     }
 
     private JTable getTableComponent() {

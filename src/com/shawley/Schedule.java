@@ -6,12 +6,18 @@ public class Schedule {
     private final Map<Date,List<TimeSlot>> timeSlots = new HashMap<>();
     private final List<TimeSlot> allTimeslots = new ArrayList<>();
     private static final Calendar cal = new GregorianCalendar();
+    private Date from;
+    private Date to;
 
     public Schedule(Date date) {
+        this.from = date;
+        this.to = date;
         this.addStandardTimeSlotListToDate(date);
     }
 
     public Schedule(Date from, Date to) {
+        this.from = from;
+        this.to = to;
         List<Date> dates = this.getDateListForDateRange(from, to);
         dates.forEach(this::addStandardTimeSlotListToDate);
     }
@@ -100,5 +106,13 @@ public class Schedule {
     public boolean hasEveningOnDate(Date date) {
         List<TimeSlot> times = this.getTimeSlots(date);
         return times.contains(TimeSlot.createEveningTimeSlot());
+    }
+
+    public Date getStartDate() {
+        return this.from;
+    }
+
+    public Date getEndDate() {
+        return this.to;
     }
 }

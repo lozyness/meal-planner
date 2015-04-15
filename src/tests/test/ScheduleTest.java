@@ -243,4 +243,21 @@ public class ScheduleTest {
         assertFalse(schedule.hasEveningOnDate(dates[0]));
     }
 
+    @Test
+    public void schedulesStartDateIsCorrect() {
+        Date date = new Date();
+        Schedule schedule = new Schedule(date);
+        assertEquals(date, schedule.getStartDate());
+    }
+
+    @Test
+    public void scheduledEndDateIsCorrect() {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        Date from = cal.getTime();
+        cal.add(Calendar.DATE, 1);
+        Date to = cal.getTime();
+        Schedule schedule = new Schedule(from, to);
+        assertEquals(to, schedule.getEndDate());
+    }
 }
